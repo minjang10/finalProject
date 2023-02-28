@@ -14,7 +14,7 @@ library('tidyverse')
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Income vs Type of Diabetes"),
+    titlePanel("Income vs Type II Diabetes"),
 
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
@@ -38,8 +38,13 @@ server <- function(input, output) {
 
     output$distPlot <- renderPlot({
         diabetes <- read_csv("diabetes.csv")
-        ggplot(diabetes, aes(x = income, y = Diabetes_O12)) +
-          geom_histogram(stat = "identity", color = "blue")
+        diabetes <- diabetes[diabetes$Diabetes_012 != 1,]
+        diabetes <- group_by(diabetes, Income, Diabetes_012) %>% 
+          summarize(
+            n = n()
+          )
+        ggplot(diabetes, aes(x = Income, y = Diabetes_012)) +
+          geom_histogram(stat = "identity", position = "dodge", color = "blue")
     })
 }
 
