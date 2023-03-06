@@ -81,7 +81,7 @@ ui <- fluidPage(
                                  ),
                                  
                                  radioButtons(
-                                   "color",
+                                   "conditionsPlotColor",
                                    "",
                                    choices = c(gray = "lightgray",
                                                orange = "darkorange",
@@ -127,7 +127,7 @@ ui <- fluidPage(
                                  ),
                                  
                                  radioButtons(
-                                   "colorTable",
+                                   "conditionsTableColor",
                                    "",
                                    choices = c(gray = "lightgray",
                                                orange = "darkorange",
@@ -161,7 +161,7 @@ ui <- fluidPage(
                                  stage of diabetes select by you:")
                         ),
                         
-                        reactableOutput("table1"),
+                        reactableOutput("conditionsTable1"),
                         
                         p(
                           strong("The table below shows the percentage of
@@ -169,9 +169,9 @@ ui <- fluidPage(
                                  on the stage of diabetes selected by you:")
                         ),
                         
-                        reactableOutput("table2"),
+                        reactableOutput("conditionsTable2"),
                         
-                        textOutput("totalPatients")
+                        textOutput("conditionsTableMessage")
                       )
                       )
              )),
@@ -235,7 +235,7 @@ server <- function(input, output) {
           ggplot(aes()) +
           geom_blank() +
           theme(
-            plot.background = element_rect(fill = input$color),
+            plot.background = element_rect(fill = input$conditionsPlotColor),
             text = element_text(size = 15, color = "black"),
             axis.text = element_text(size = 13, color = "black")
           ) +
@@ -252,7 +252,7 @@ server <- function(input, output) {
                    position = "dodge") +
           coord_flip() +
           theme(
-            plot.background = element_rect(fill = input$color),
+            plot.background = element_rect(fill = input$conditionsPlotColor),
             text = element_text(size = 15, color = "black"),
             axis.text = element_text(size = 13, color = "black")
           ) +
@@ -268,10 +268,10 @@ server <- function(input, output) {
             length(input$chooseConditions))
     })
     
-    output$table1 <- renderReactable({
+    output$conditionsTable1 <- renderReactable({
       options(
         reactable.theme = reactableTheme(
-          backgroundColor = input$colorTable,
+          backgroundColor = input$conditionsTableColor,
           borderColor = "black",
           borderWidth = "2px"
         )
@@ -288,10 +288,10 @@ server <- function(input, output) {
       )
     })
     
-    output$table2 <- renderReactable({
+    output$conditionsTable2 <- renderReactable({
       options(
         reactable.theme = reactableTheme(
-          backgroundColor = input$colorTable,
+          backgroundColor = input$conditionsTableColor,
           borderColor = "black",
           borderWidth = "2px"
         )
@@ -309,7 +309,7 @@ server <- function(input, output) {
       )
     })
     
-    output$totalPatients <- renderText({
+    output$conditionsTableMessage <- renderText({
       displayPatients <- tableDf() %>%
         summarize(Total_Patients = length(Diabetes_012))
       
