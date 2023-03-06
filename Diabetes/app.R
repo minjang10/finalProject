@@ -1,52 +1,321 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
-library('tidyverse')
+library(tidyverse)
+library(reactable)
 
-# Define UI for application that draws a histogram
+diabetes <- read_delim("diabetes.csv")
+
 ui <- fluidPage(
-
-    # Application title
-    titlePanel("Income vs Type II Diabetes"),
-
-    # Sidebar with a slider input for number of bins 
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-           plotOutput("distPlot")
-        )
-    )
+  tabsetPanel(
+    ############################################################################
+    tabPanel("About",
+             
+             fluidRow(
+               column(8,
+                      wellPanel(
+                        style = "background-color: #C0C0C0;
+                                 border-color: #060000;
+                                 height: 100vh;
+                                 font-size: 20px",
+                        
+                        h2("About Type II Diabetes"),
+                        
+                        p("Type II diabetes, generally called diabetes, is
+                           one of the most widespread chronic diseases in
+                           the United States. It impacts millions of
+                           Americans every year."),
+                        
+                        p("Diabetes is a chronic disease in which an
+                           individual is unable to effectively regulate
+                           the levels of glucose in their blood. Diabetes
+                           is characterized by the body's inability to
+                           create enough insulin or its inability to
+                           effectively use the insuline to regulate blood
+                           sugar."
+                        ),
+                        
+                        p("In this project, we aim to analyze the frequency
+                           of diabetes in patients with respect to ",
+                          em("Underlying Health Conditions,"),
+                          em("Smoking and Drinking Habits,"),
+                          "and ",
+                          em("Age Groups"),
+                          "."
+                        )
+                      )
+                      ),
+               
+               column(4,
+                      wellPanel(
+                        style = "background-color: #7AA1BF;
+                                 border-color: #060000;
+                                 height: 100vh;
+                                 font-size: 20px",
+                        h2("The Data"),
+                        
+                        p("The data used for this project has been taken
+                           from the ",
+                          a("Kaggle Diabetes Health Indicator Dataset",
+                            href =
+                              "https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset"),
+                            ". The data includes the responses of 253,680 individuals
+                            who took the",
+                          strong("Behavioral Risk Factor Surveillance
+                                  System (BRFSS) survey"),
+                            "in 2015."
+                        )
+                      ))
+             )),
+    ############################################################################
+    tabPanel("Underlying Health Conditions",
+             fluidRow(
+               column(6,
+                      wellPanel(
+                        style = "background-color: #7AA1BF;
+                                 border-color: #060000;
+                                 height: 25vh",
+                        fluidRow(
+                          column(6,
+                                 p(
+                                   strong("To change the background color of the
+                                           plot, choose a color from the list:")
+                                 ),
+                                 
+                                 radioButtons(
+                                   "color",
+                                   "",
+                                   choices = c(gray = "lightgray",
+                                               orange = "darkorange",
+                                               green = "lightgreen",
+                                               pink = "lightpink",
+                                               khaki = "darkkhaki")
+                                 )
+                                 ),
+                          column(6,
+                                 p(
+                                   strong("Select the underlying conditions you
+                                          wish to include on the plot:")
+                                 ),
+                                 
+                                 uiOutput("conditions")
+                                 )
+                                 )
+                          
+                        ),
+                        
+                      wellPanel(
+                        style = "background-color: #7AA1BF;
+                                 border-color: #060000;
+                                 height: 75vh",
+                        
+                        plotOutput("conditionsPlot"),
+                        
+                        textOutput("conditionsPlotMessage")
+                      )
+                      ),
+               
+               column(6,
+                      wellPanel(
+                        style = "background-color: #C0C0C0;
+                                 border-color: #060000;
+                                 height: 25vh",
+                        fluidRow(
+                          column(6,
+                                 
+                                 p(
+                                   strong("To change the background color of the
+                                          tables, choose a color from the list")
+                                 ),
+                                 
+                                 radioButtons(
+                                   "colorTable",
+                                   "",
+                                   choices = c(gray = "lightgray",
+                                               orange = "darkorange",
+                                               green = "lightgreen",
+                                               pink = "lightpink",
+                                               khaki = "darkkhaki")
+                                 )),
+                          column(6,
+                                 
+                                 p(
+                                   strong("Select the stage of diabetes you wish
+                                          to make a table for:")
+                                 ),
+                                 
+                                 radioButtons("type",
+                                              "",
+                                              choices = c(Prediabetes = "1",
+                                                          diabetes = "2")
+                                              )
+                                 )
+                        )
+                      ),
+                      wellPanel(
+                        style = "background-color: #C0C0C0;
+                                 border-color: #060000;
+                                 height: 75vh",
+                        
+                        p(
+                          strong("The table below shows the number of patients
+                                 with each underlying condition based on the 
+                                 stage of diabetes select by you:")
+                        ),
+                        
+                        reactableOutput("table1"),
+                        
+                        p(
+                          strong("The table below shows the percentage of
+                                 patients with each underlying condition based
+                                 on the stage of diabetes selected by you:")
+                        ),
+                        
+                        reactableOutput("table2"),
+                        
+                        textOutput("totalPatients")
+                      )
+                      )
+             )),
+    ############################################################################
+    tabPanel("Smoking and Drinking"),
+    ############################################################################
+    tabPanel("Age Groups")
+  )
 )
 
-# Define server logic required to draw a histogram
 server <- function(input, output) {
-
-    output$distPlot <- renderPlot({
-        diabetes <- read_csv("diabetes.csv")
-        diabetes <- diabetes[diabetes$Diabetes_012 != 1,]
-        diabetes <- group_by(diabetes, Income, Diabetes_012) %>% 
-          summarize(
-            n = n()
-          )
-        ggplot(diabetes, aes(x = Income, y = Diabetes_012)) +
-          geom_histogram(stat = "identity", position = "dodge", color = "blue")
+  
+  conditionsData <- reactive({
+    diabetes %>%
+      filter(Diabetes_012 != 0) %>%
+      select(Diabetes_012,
+             HighBP,
+             HighChol,
+             Stroke, 
+             HeartDiseaseorAttack) %>%
+      group_by(Diabetes_012) %>%
+      summarize(High_BP = sum(HighBP),
+                High_Chol = sum(HighChol),
+                Stroke = sum(Stroke),
+                Heart_Disease_or_Attack = sum(HeartDiseaseorAttack))
     })
-}
+    
+    output$conditions <- renderUI({
+      checkboxGroupInput("chooseConditions",
+                         "",
+                         choices = names(subset(conditionsData(),
+                                                select = -c(Diabetes_012)
+                                                )))
+    })
+    
+    sample <- reactive({
+      if(is.null(input$chooseConditions)) {
+        s1 <- data.frame(matrix(ncol = 1, nrow = 0))
+      } else {
+        s1 <- conditionsData() %>%
+          gather(., 
+                 key = "Conditions",
+                 value = "Count",
+                 all_of(input$chooseConditions))
+      }
+    })
+    
+    tableDf <- reactive({
+      diabetes %>%
+        filter(Diabetes_012 == strtoi(input$type)) %>%
+        select(Diabetes_012,
+               HighBP,
+               HighChol,
+               Stroke, 
+               HeartDiseaseorAttack)
+    })
+    
+    output$conditionsPlot <- renderPlot({
+      if(nrow(sample()) == 0) {
+        p <- sample() %>%
+          ggplot(aes()) +
+          geom_blank() +
+          theme(
+            plot.background = element_rect(fill = input$color),
+            text = element_text(size = 15, color = "black"),
+            axis.text = element_text(size = 13, color = "black")
+          ) +
+          ggtitle("Please select at least one condition")
+        
+        p
+      }
+      
+      else {
+        p <- sample() %>%
+          ggplot(aes(Conditions, Count)) +
+          geom_bar(stat = "identity",
+                   aes(fill = factor(Diabetes_012)),
+                   position = "dodge") +
+          coord_flip() +
+          theme(
+            plot.background = element_rect(fill = input$color),
+            text = element_text(size = 15, color = "black"),
+            axis.text = element_text(size = 13, color = "black")
+          ) +
+          ggtitle("Number of prediabetic(1) and diabetic(2) patients for
+                  each condition")
+        
+        p
+      }
+    })
+    
+    output$conditionsPlotMessage <- renderText({
+      paste("Number of conditions considered :",
+            length(input$chooseConditions))
+    })
+    
+    output$table1 <- renderReactable({
+      options(
+        reactable.theme = reactableTheme(
+          backgroundColor = input$colorTable,
+          borderColor = "black",
+          borderWidth = "2px"
+        )
+      )
+      
+      reactable(
+        tableDf() %>%
+          summarize(
+            High_BP = sum(HighBP),
+            High_Chol = sum(HighChol),
+            Stroke = sum(Stroke),
+            Heart_Disease_or_Attack = sum(HeartDiseaseorAttack)
+          )
+      )
+    })
+    
+    output$table2 <- renderReactable({
+      options(
+        reactable.theme = reactableTheme(
+          backgroundColor = input$colorTable,
+          borderColor = "black",
+          borderWidth = "2px"
+        )
+      )
+      
+      reactable(
+        tableDf() %>%
+          summarize(
+            High_BP = round((sum(HighBP) / length(Diabetes_012)) * 100, 2),
+            High_Chol = round((sum(HighChol) / length(Diabetes_012)) * 100, 2),
+            Stroke = round((sum(Stroke) / length(Diabetes_012)) * 100, 2),
+            Heart_Disease_or_Attack = round((sum(HeartDiseaseorAttack) /
+                                               length(Diabetes_012)) * 100, 2)
+          )
+      )
+    })
+    
+    output$totalPatients <- renderText({
+      displayPatients <- tableDf() %>%
+        summarize(Total_Patients = length(Diabetes_012))
+      
+      paste("Total number of patients: ",
+            displayPatients$Total_Patients)
+    })
+  }
 
-# Run the application 
-shinyApp(ui = ui, server = server)
+  shinyApp(ui = ui, server = server)
