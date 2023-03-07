@@ -178,7 +178,20 @@ ui <- fluidPage(
     ############################################################################
     tabPanel("Smoking and Drinking"),
     ############################################################################
-    tabPanel("Age Groups")
+    tabPanel("Age Groups",
+             fluidRow(
+               column(6,
+                      wellPanel(
+                        style = "background-color: #7AA1BF;
+                                 border-color: #060000;
+                                 height: 25vh",
+                        fluidRow(
+                          column(6,
+                                 p(
+                                   strong("The interactive graphic below shows
+                                          the risk of diabetes corresponding to 
+                                          the selected age group:")
+                                 ),
   )
 )
 
