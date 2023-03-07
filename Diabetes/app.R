@@ -5,6 +5,7 @@ library(reactable)
 diabetes <- read_delim("diabetes.csv")
 
 ui <- fluidPage(
+  titlePanel("Diabetes Analysis"),
   tabsetPanel(
     ############################################################################
     tabPanel("About",
@@ -178,7 +179,31 @@ ui <- fluidPage(
     ############################################################################
     tabPanel("Smoking and Drinking"),
     ############################################################################
-    tabPanel("Age Groups")
+    tabPanel("Age Groups",
+             sidebarLayout(
+               sidebarPanel(
+                 style = "background-color: #C0C0C0;
+                   border-color: #060000;
+                   height: 25vh",
+                 sliderInput(
+                   "age",
+                   "Select Age Group",
+                   min = 1,
+                   max = 13,
+                   value = 6
+                 )
+               ),
+               mainPanel(
+                 wellPanel(
+                   style = "background-color: #7AA1BF;
+                          border-color: #060000;
+                          height: 60vh",
+                   plotOutput("ageplot"),
+                   tableOutput("test")
+                 )
+               )
+             )
+    )
   )
 )
 
@@ -315,6 +340,11 @@ server <- function(input, output) {
       
       paste("Total number of patients: ",
             displayPatients$Total_Patients)
+    })
+    
+    output$ageplot <- renderPlot({
+      ggplot(data = diabetes[diabetes$Age == input$age, ]) +
+        geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5)
     })
   }
 
