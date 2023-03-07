@@ -180,21 +180,6 @@ ui <- fluidPage(
     tabPanel("Smoking and Drinking"),
     ############################################################################
     tabPanel("Age Groups",
-<<<<<<< HEAD
-             fluidRow(
-               column(6,
-                      wellPanel(
-                        style = "background-color: #7AA1BF;
-                                 border-color: #060000;
-                                 height: 25vh",
-                        fluidRow(
-                          column(6,
-                                 p(
-                                   strong("The interactive graphic below shows
-                                          the risk of diabetes corresponding to 
-                                          the selected age group:")
-                                 ),
-=======
              sidebarLayout(
                sidebarPanel(
                  style = "background-color: #C0C0C0;
@@ -228,7 +213,6 @@ ui <- fluidPage(
                )
              )
     )
->>>>>>> e52c34781c0fb7a92f03d6b92a4dddf4d16443fa
   )
 )
 
