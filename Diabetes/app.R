@@ -208,7 +208,7 @@ ui <- fluidPage(
                           border-color: #060000;
                           height: 60vh",
                    plotOutput("ageplot"),
-                   tableOutput("test")
+                   textOutput("ageplotText")
                  )
                )
              )
@@ -353,7 +353,40 @@ server <- function(input, output) {
     
     output$ageplot <- renderPlot({
       ggplot(data = diabetes[diabetes$Age == input$age, ]) +
-        geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$agePlotColor)
+        geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$agePlotColor) +
+        xlab("Diabetes Type (0 = No Diabetes)") +
+        ylab("count")
+    })
+    
+    output$ageplotText <- renderText({
+      if (input$age == 1) {
+        ageRange <- "18-24"
+      } else if (input$age == 2) {
+        ageRange <- "25-29"
+      } else if (input$age == 3) {
+        ageRange <- "30-34"
+      } else if (input$age == 4) {
+        ageRange <- "35-39"
+      } else if (input$age == 5) {
+        ageRange <- "40-44"
+      } else if (input$age == 6) {
+        ageRange <- "45-49"
+      } else if (input$age == 7) {
+        ageRange <- "50-54"
+      } else if (input$age == 8) {
+        ageRange <- "55-59"
+      } else if (input$age == 9) {
+        ageRange <- "60-64"
+      } else if (input$age == 10) {
+        ageRange <- "65-69"
+      } else if (input$age == 11) {
+        ageRange <- "70-74"
+      } else if (input$age == 12) {
+        ageRange <- "75-79"
+      } else if (input$age == 13) {
+        ageRange <- "80+"
+      }
+      paste("Current age group range:", ageRange)
     })
   }
 
