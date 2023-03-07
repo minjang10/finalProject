@@ -184,13 +184,22 @@ ui <- fluidPage(
                sidebarPanel(
                  style = "background-color: #C0C0C0;
                    border-color: #060000;
-                   height: 25vh",
+                   height: 50vh",
                  sliderInput(
                    "age",
                    "Select Age Group",
                    min = 1,
                    max = 13,
                    value = 6
+                 ),
+                 radioButtons(
+                   "agePlotColor",
+                   "Select Color of Bins:",
+                   choices = c(gray = "lightgray",
+                     orange = "darkorange",
+                     green = "lightgreen",
+                     pink = "lightpink",
+                     khaki = "darkkhaki")
                  )
                ),
                mainPanel(
@@ -344,7 +353,7 @@ server <- function(input, output) {
     
     output$ageplot <- renderPlot({
       ggplot(data = diabetes[diabetes$Age == input$age, ]) +
-        geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5)
+        geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$agePlotColor)
     })
   }
 
