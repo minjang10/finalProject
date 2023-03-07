@@ -177,7 +177,54 @@ ui <- fluidPage(
                       )
              )),
     ############################################################################
-    tabPanel("Smoking and Drinking"),
+    tabPanel("Smoking and Drinking",
+             fluidRow(
+               column(6,
+                      wellPanel(
+                        style = "background-color: #7AA1BF;
+                                 border-color: #060000;
+                                 height: 25vh",
+                        fluidRow(
+                          column(6,
+                                 p(
+                                   strong("To change the background color of the
+                                           plot, choose a color from the list:")
+                                 ),
+                                 
+                                 radioButtons(
+                                   "conditionsPlotColor",
+                                   "",
+                                   choices = c(gray = "lightgray",
+                                               orange = "darkorange",
+                                               green = "lightgreen",
+                                               pink = "lightpink",
+                                               khaki = "darkkhaki")
+                                 )
+                          ),
+                          column(6,
+                                 p(
+                                   strong("Have you smoked at least 100 
+                                    cigarettes or 5 packs in your lifetime?
+                                    Select 1 for yes and 0 for no:")
+                                 ),
+                                 
+                                 uiOutput("smoker")
+                          )
+                        )
+                        
+                      ),
+                      
+                      wellPanel(
+                        style = "background-color: #7AA1BF;
+                                 border-color: #060000;
+                                 height: 75vh",
+                        
+                        plotOutput("smokerPlot"),
+                        
+                        textOutput("smokerPlotMessage")
+                      )
+                      )
+             )),
     ############################################################################
     tabPanel("Age Groups",
              sidebarLayout(
@@ -387,6 +434,13 @@ server <- function(input, output) {
         ageRange <- "80+"
       }
       paste("Current age group range:", ageRange)
+    })
+    
+    output$smokerPlot <- renderPlot({
+      ggplot(data = diabetes[diabetes$Smoker == input$smoker, ]) +
+        geom_histogram(mapping =aes(x = Diabetes_012), binwidth = 0.5, fill = input$smokerPlotColor) +
+        xlab("Diabetes Type (0 = No Diabetes)") +
+        ylab("coubnt")
     })
   }
 
