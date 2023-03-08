@@ -257,7 +257,20 @@ ui <- fluidPage(
                    textOutput("ageplotText")
                  )
                )
-             )
+             )),
+    ############################################################################
+    tabPanel("Conclusion",
+              h2("Conlusion"),
+             
+             p("In this interactive application, we analyzed and evaluated three
+               categories of risk factors with respect to the corresponding
+               frequency of diabetes in patients who aligned with those 
+               categories. In the scope of underlying health conditions, our
+               analysis encompassed four conditions: high blood pressure, high
+               cholesterol, stroke, and heart disease or heart attack. Upon 
+               examination of all four"),
+              
+    
     )
   )
 )
