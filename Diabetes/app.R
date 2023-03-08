@@ -275,7 +275,7 @@ ui <- fluidPage(
                sidebarPanel(
                  style = "background-color: #C0C0C0;
                    border-color: #060000;
-                   height: 50vh",
+                   height: 100vh",
                  sliderInput(
                    "age",
                    "Select Age Group",
@@ -297,7 +297,7 @@ ui <- fluidPage(
                  wellPanel(
                    style = "background-color: #7AA1BF;
                           border-color: #060000;
-                          height: 60vh",
+                          height: 100vh",
                    plotOutput("ageplot"),
                    textOutput("ageplotText")
                  )
@@ -519,36 +519,6 @@ server <- function(input, output) {
     
   })
   
-  output$ageplotText <- renderText({
-    if (input$age == 1) {
-      ageRange <- "18-24"
-    } else if (input$age == 2) {
-      ageRange <- "25-29"
-    } else if (input$age == 3) {
-      ageRange <- "30-34"
-    } else if (input$age == 4) {
-      ageRange <- "35-39"
-    } else if (input$age == 5) {
-      ageRange <- "40-44"
-    } else if (input$age == 6) {
-      ageRange <- "45-49"
-    } else if (input$age == 7) {
-      ageRange <- "50-54"
-    } else if (input$age == 8) {
-      ageRange <- "55-59"
-    } else if (input$age == 9) {
-      ageRange <- "60-64"
-    } else if (input$age == 10) {
-      ageRange <- "65-69"
-    } else if (input$age == 11) {
-      ageRange <- "70-74"
-    } else if (input$age == 12) {
-      ageRange <- "75-79"
-    } else if (input$age == 13) {
-      ageRange <- "80+"
-    }
-    paste("Current age group range:", ageRange)
-  })
   
   smokerData <- reactive({
     diabetes %>%
@@ -576,7 +546,7 @@ server <- function(input, output) {
     }
     
     ggplot(data = diabetes[diabetes$Smoker == smoker01, ]) +
-      geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$smokerPlotColor) +
+      geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)), fill = input$smokerPlotColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("count")
   })
@@ -607,7 +577,7 @@ server <- function(input, output) {
     }
     
     ggplot(data = diabetes[diabetes$HvyAlcoholConsump == drinker01, ]) +
-      geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$drinkerTableColor) +
+      geom_histogram(stat = "count",mapping = aes(x = factor(Diabetes_012)), fill = input$drinkerTableColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("count")
   })
