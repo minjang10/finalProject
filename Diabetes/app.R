@@ -192,7 +192,7 @@ ui <- fluidPage(
                                  ),
                                  
                                  radioButtons(
-                                   "conditionsPlotColor",
+                                   "smokerPlotColor",
                                    "",
                                    choices = c(gray = "lightgray",
                                                orange = "darkorange",
@@ -260,8 +260,8 @@ ui <- fluidPage(
              )),
     ############################################################################
     tabPanel("Conclusion",
-              h2("Conlusion"),
-              h3("Underlying Health Conditions"),
+             h2("Conlusion"),
+             
              p("In this interactive application, we analyzed and evaluated three
                categories of risk factors with respect to the corresponding
                frequency of diabetes in patients who aligned with those 
@@ -269,8 +269,8 @@ ui <- fluidPage(
                analysis encompassed four conditions: high blood pressure, high
                cholesterol, stroke, and heart disease or heart attack. Upon 
                examination of all four"),
-              
-    
+             
+             
     )
   )
 )
@@ -493,14 +493,21 @@ server <- function(input, output) {
   
   
   output$smoker <- renderUI({
-    radioButtons('diabetes', 'Select 1 for yes, and 0 for no: ', 
-                 choices = c(0, 1)
+    radioButtons('diabetes', '', 
+                 choices = c("Yes", "No")
     )
   })
   
   output$smokerPlot <- renderPlot({
-    ggplot(data = diabetes[diabetes$Smoker == input$smoker, ]) +
-      geom_histogram(mapping =aes(x = Diabetes_012), binwidth = 0.5, fill = input$smokerPlotColor) +
+    
+    if (input$diabetes == "No") {
+      smoker01 <- 0.0
+    } else if(input$diabetes == "Yes") {
+      smoker01 <- 1.0
+    }
+    
+    ggplot(data = diabetes[diabetes$Smoker == smoker01, ]) +
+      geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$smokerPlotColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("coubnt")
   })
