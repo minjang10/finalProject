@@ -353,7 +353,7 @@ server <- function(input, output) {
     
     output$ageplot <- renderPlot({
       ggplot(data = diabetes[diabetes$Age == input$age, ]) +
-        geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$agePlotColor) +
+        geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)), fill = input$agePlotColor) +
         xlab("Diabetes Type (0 = No Diabetes)") +
         ylab("count")
     })
