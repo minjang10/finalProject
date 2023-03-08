@@ -580,6 +580,38 @@ server <- function(input, output) {
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("count")
   })
+  
+  drinkerData <- reactive({
+    diabetes %>%
+      filter(Diabetes_012 !=0) %>%
+      select(Diabetes_012,
+             HvyAlcoholConsump) %>%
+      group_by(Diabetes_012) %>%
+      summarize(HvyAlcoholConsump = sum(drinker))
+    
+  })
+  
+  
+  output$drinker <- renderUI({
+    radioButtons('diabetes', '', 
+                 choices = c("Yes", "No")
+    )
+  })
+  
+  output$drinkerPlot <- renderPlot({
+    
+    if (input$diabetes == "No") {
+      drinker01 <- 0.0
+    } else if(input$diabetes == "Yes") {
+      drinker01 <- 1.0
+    }
+    
+    ggplot(data = diabetes[diabetes$HvyAlcoholConsump == drinker01, ]) +
+      geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$drinkerPlotColor) +
+      xlab("Diabetes Type (0 = No Diabetes)") +
+      ylab("count")
+  })
+  
 }
 
 shinyApp(ui = ui, server = server)
