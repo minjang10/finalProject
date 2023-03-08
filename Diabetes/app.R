@@ -306,8 +306,8 @@ ui <- fluidPage(
     ############################################################################
     tabPanel("Conclusion",
              h2("Conclusion"),
-             h3("Underlying Health Conditions"),
              
+             h3("Underlying Health Conditions"),
              p("In this interactive application, we analyzed and evaluated three
                categories of risk factors with respect to the corresponding
                frequency of diabetes in patients who aligned with those 
@@ -326,8 +326,8 @@ ui <- fluidPage(
                correlation. This is fairly reasonable, given, high blood pressure
                and high cholesterol are both major risk factors associated with
                heart disease/heart attacks."),
-             h3("Smoking and Drinking"),
              
+             h3("Smoking and Drinking"),
              p("Additionally, we examined the relationship between the frequency
               of diabetes in patients and certain lifestyle aspects, namely, 
               smoking and drinking activity. In this dataset, individuals'
@@ -337,7 +337,56 @@ ui <- fluidPage(
               if the individual has smoked at least 100 cigarettes or 5 packs in
               their lifetime they are considered a regular smoker. Users may 
               select 1 if the described conditions align with their lifestyle 
-              or 0 if they do not.")
+              or 0 if they do not. "),
+             p("In the visualization for smoking activity and diabetes rates, 
+               one can observe that the non-smoker data has a much higher count 
+               of non-diabetic patients at slightly under 125,000 patients while 
+               the smoker data has a much lower count of non-diabetic patients
+               at only around 90,000 patients. This could possibly indicate a 
+               positive correlation between smoking and diabetic rates and may
+               suggest that smoking increases the risk of diabetes. The CDC
+               reports that regular smokers are 30-40% more likely to get type-2
+               diabetes than non-smokers. They attribute this risk to the
+               increase in blood pressure that nicotine causes."),
+             p("In our assessment of drinking activity and diabetes rates, one
+               can observe a similar pattern to the trend present in smoking
+               activity. In both visualizations, the most significant difference
+               in increased smoking and drinking actiivty is that of the
+               counts of non-diabetic patients. For individuals with lighter
+               alcohol consumption, the count of non-diabetic patients is around 
+               200,000 while the count of non-diabetic patients for heavy 
+               alcohol consumers falls nearly 25% to roughly 140,000. Much like 
+               the smoking data, the drinking data seemingly illustrates a
+               positive relationship between alcohol consumption and diabetic 
+               rates in patients. The American Diabetes Association advises 
+               against heavy alcohol consumption as it increases one's risk of
+               getting type-2 diabetes stating that excessive drinking can lower
+               the body's sensitivity to insulin."),
+             
+             h3("Age Groups"),
+             p("As age increases, there is an upward trend in the number of
+               patients diagnosed with type-diabetes. There is also a downward
+               trend in non-diabetic patients as the age group increases. Many 
+               sources acknowledge a strong positive correlation between age 
+               and type-2 diabetes diagnoses. This correlation is commonly
+               attributed to the combined effects of increasing insulin
+               resistance and impaired pancreatic function with age."),
+             
+             h3("Broader Implications"),
+             p("Data analysis is instrumental in the development and advancement
+               of general healthcare. Such information is not only utilized by 
+               medical professionals and officials but is also highly valuable
+               to the public. The general population may not be equipped with
+               the knowledge to interpret data effectively, especially in vast
+               amounts. In many cases, relevant terminology is often not in our 
+               vernacular, further hindering our comprehension. Simple 
+               interactive visualizations such as the ones included in this
+               project aids in the accessibility, readability, and functionality
+               of data sets such as the one we examined. Healthcare facilities
+               may use such applications to educate their patients and encourage
+               certain lifestyle changes."),
+             
+             
              
              
     )
