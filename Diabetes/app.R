@@ -261,6 +261,7 @@ ui <- fluidPage(
     ############################################################################
     tabPanel("Conclusion",
              h2("Conlusion"),
+             h3("Underlying Health Conditions"),
              
              p("In this interactive application, we analyzed and evaluated three
                categories of risk factors with respect to the corresponding
@@ -268,7 +269,10 @@ ui <- fluidPage(
                categories. In the scope of underlying health conditions, our
                analysis encompassed four conditions: high blood pressure, high
                cholesterol, stroke, and heart disease or heart attack. Upon 
-               examination of all four"),
+               examination of all four conditions as plotted in correlation to 
+               the freqency of diabetes in patients, one can observe relatively
+               higher frequencies of diabetes in patients with high blood 
+               pressure and in patients with high cholesterol levels."),
              
              
     )
