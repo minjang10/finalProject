@@ -260,7 +260,7 @@ ui <- fluidPage(
              )),
     ############################################################################
     tabPanel("Conclusion",
-             h2("Conlusion"),
+             h2("Conclusion"),
              h3("Underlying Health Conditions"),
              
              p("In this interactive application, we analyzed and evaluated three
@@ -272,7 +272,15 @@ ui <- fluidPage(
                examination of all four conditions as plotted in correlation to 
                the freqency of diabetes in patients, one can observe relatively
                higher frequencies of diabetes in patients with high blood 
-               pressure and in patients with high cholesterol levels."),
+               pressure and in patients with high cholesterol levels. While we
+               cannot explicitly attribute these trends to a causal relationship,
+               we can conclude a relatively strong and positive correlation
+               with diabetes in relation to blood pressure and cholesterol.
+               Stroke showed the least correlation to diabetes while the plot
+               for heart disease/heart attack illustrated a slightly stronger 
+               correlation. This is fairly reasonable, given, high blood pressure
+               and high cholesterol are both major risk factors associated with
+               heart disease/heart attacks."),
              
              
     )
@@ -513,7 +521,7 @@ server <- function(input, output) {
     ggplot(data = diabetes[diabetes$Smoker == smoker01, ]) +
       geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$smokerPlotColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
-      ylab("coubnt")
+      ylab("count")
   })
 }
 
