@@ -408,8 +408,6 @@ ui <- fluidPage(
                personalized analysis of their risk. Hopefully, this feature, 
                would provide users with a more meaningful and straightforward
                experience."),
-             
-             
     )
   )
 )
