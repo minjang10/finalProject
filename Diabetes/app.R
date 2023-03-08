@@ -257,21 +257,11 @@ ui <- fluidPage(
                    textOutput("ageplotText")
                  )
                )
-             )),
-    ############################################################################
-    tabPanel("About",
-             h2("Conclusion"),
-             
-             p("In this interactive application, we analyzed and evaluated three 
-               categories of risk factors with respect to the corresponding 
-               frequency of diabetes in patients who aligned with those 
-               categories. In the scope of underlying health conditions, our
-               analysis encompassed four conditions: high blood pressure, high 
-               cholesterol, stroke, and heart disease or heart attack. Upon 
-               examination of a plot "),  
+             )
     )
   )
 )
+
 server <- function(input, output) {
   
   conditionsData <- reactive({
@@ -399,6 +389,7 @@ server <- function(input, output) {
     )
   })
   
+  
   output$conditionsTableMessage <- renderText({
     displayPatients <- tableDf() %>%
       summarize(Total_Patients = length(Diabetes_012))
@@ -409,9 +400,41 @@ server <- function(input, output) {
   
   output$ageplot <- renderPlot({
     ggplot(data = diabetes[diabetes$Age == input$age, ]) +
-      geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$agePlotColor) +
+      geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)), fill = input$agePlotColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("count")
+  })
+  
+  output$ageplotText <- renderText({
+    if (input$age == 1) {
+      ageRange <- "18-24"
+    } else if (input$age == 2) {
+      ageRange <- "25-29"
+    } else if (input$age == 3) {
+      ageRange <- "30-34"
+    } else if (input$age == 4) {
+      ageRange <- "35-39"
+    } else if (input$age == 5) {
+      ageRange <- "40-44"
+    } else if (input$age == 6) {
+      ageRange <- "45-49"
+    } else if (input$age == 7) {
+      ageRange <- "50-54"
+    } else if (input$age == 8) {
+      ageRange <- "55-59"
+    } else if (input$age == 9) {
+      ageRange <- "60-64"
+    } else if (input$age == 10) {
+      ageRange <- "65-69"
+    } else if (input$age == 11) {
+      ageRange <- "70-74"
+    } else if (input$age == 12) {
+      ageRange <- "75-79"
+    } else if (input$age == 13) {
+      ageRange <- "80+"
+    }
+    paste("Current age group range:", ageRange)
+    
   })
   
   output$ageplotText <- renderText({
@@ -454,6 +477,7 @@ server <- function(input, output) {
       summarize(Smoker = sum(smoker))
     
   })
+  
   
   output$smoker <- renderUI({
     radioButtons('diabetes', 'Select 1 for yes, and 0 for no: ', 
