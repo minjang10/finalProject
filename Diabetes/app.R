@@ -222,6 +222,51 @@ ui <- fluidPage(
                         
                         textOutput("smokerPlotMessage")
                       )
+               ),
+               
+               column(6,
+                      wellPanel(
+                        style = "background-color: #C0C0C0;
+                                 border-color: #060000;
+                                 height: 25vh",
+                        fluidRow(
+                          column(6,
+                                 
+                                 p(
+                                   strong("To change the background color of the
+                                          tables, choose a color from the list")
+                                 ),
+                                 
+                                 radioButtons(
+                                   "drinkerTableColor",
+                                   "",
+                                   choices = c(gray = "lightgray",
+                                               orange = "darkorange",
+                                               green = "lightgreen",
+                                               pink = "lightpink",
+                                               khaki = "darkkhaki")
+                                 )),
+                          column(6,
+                                 
+                                 p(
+                                   strong("Do you consume more than 14 drinks
+                                          per week as an adult male or 7 drinks 
+                                          per week as an adult female?")
+                                 ),
+                                 
+                                 uiOutput("drinker")
+                          )
+                        )
+                      ),
+                      wellPanel(
+                        style = "background-color: #C0C0C0;
+                                 border-color: #060000;
+                                 height: 75vh",
+                        
+                        plotOutput("drinkerPlot"),
+                        
+                        textOutput("drinkerPlotMessage")
+                      )
                )
              )),
     ############################################################################
