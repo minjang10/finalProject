@@ -309,7 +309,7 @@ ui <- fluidPage(
              
              h3("Underlying Health Conditions"),
              p("In this interactive application, we analyzed and evaluated three
-               categories of risk factors with respect to the corresponding
+               categories of risk factors with respect to the 
                frequency of diabetes in patients who aligned with those 
                categories. In the scope of underlying health conditions, our
                analysis encompassed four conditions: high blood pressure, high
