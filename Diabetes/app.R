@@ -387,7 +387,27 @@ ui <- fluidPage(
                certain lifestyle changes."),
              
              h3("Data Quality"),
-             p("")
+             p("Our data maintains a high level or reasonable quality as it 
+               includes several relevant and principal variables that are 
+               associated with increased diabetic risk. Amongst the factors 
+               evaluated in correspondence with diabetic rates in patients, are 
+               those that are representative of biological, socioeconomic, 
+               environmental, and lifestyle factors. The data set hollistically
+               incorporates these factors on bases of sex and age as well as 
+               both income and education. We observed no outstanding bias 
+               towards certain groups as the dataset integrates statistics 
+               regarding access to healthcare professionals as well as 
+               healthcare coverage."),
+             
+             h3("Future Ideas"),
+             p("For future research and development, we would be interested in 
+               exploring and implementing a calculator feature that would walk
+               the user through a series of questions. The questions would be
+               fashioned around the relevant factors included in the dataset.
+               Providing a calculator feature would allow users to get a
+               personalized analysis of their risk. Hopefully, this feature, 
+               would provide users with a more meaningful and straightforward
+               experience."),
              
              
     )
