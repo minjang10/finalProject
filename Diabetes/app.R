@@ -261,7 +261,7 @@ ui <- fluidPage(
     ############################################################################
     tabPanel("Conclusion",
               h2("Conlusion"),
-             
+              h3("Underlying Health Conditions"),
              p("In this interactive application, we analyzed and evaluated three
                categories of risk factors with respect to the corresponding
                frequency of diabetes in patients who aligned with those 
