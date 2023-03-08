@@ -281,6 +281,18 @@ ui <- fluidPage(
                correlation. This is fairly reasonable, given, high blood pressure
                and high cholesterol are both major risk factors associated with
                heart disease/heart attacks."),
+             h3("Smoking and Drinking"),
+             
+             p("Additionally, we examined the relationship between the frequency
+              of diabetes in patients and certain lifestyle aspects, namely, 
+              smoking and drinking activity. In this dataset, individuals'
+              lifestyle habits are evaluated on a binary scale from 0-1. One is
+              considered a heavy drinker if they surpass 14 drinks per week as 
+              an adult male or 7 drinks per week as an adult female. For smoking
+              if the individual has smoked at least 100 cigarettes or 5 packs in
+              their lifetime they are considered a regular smoker. Users may 
+              select 1 if the described conditions align with their lifestyle 
+              or 0 if they do not.")
              
              
     )
