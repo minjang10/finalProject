@@ -562,16 +562,16 @@ server <- function(input, output) {
   
   
   output$smoker <- renderUI({
-    radioButtons('diabetes', '', 
+    radioButtons('d_smoker', '', 
                  choices = c("Yes", "No")
     )
   })
   
   output$smokerPlot <- renderPlot({
     
-    if (input$diabetes == "No") {
+    if (input$d_smoker == "No") {
       smoker01 <- 0.0
-    } else if(input$diabetes == "Yes") {
+    } else if(input$d_smoker == "Yes") {
       smoker01 <- 1.0
     }
     
@@ -593,21 +593,21 @@ server <- function(input, output) {
   
   
   output$drinker <- renderUI({
-    radioButtons('diabetes', '', 
+    radioButtons('d_drinker', '', 
                  choices = c("Yes", "No")
     )
   })
   
   output$drinkerPlot <- renderPlot({
     
-    if (input$diabetes == "No") {
+    if (input$d_drinker == "No") {
       drinker01 <- 0.0
-    } else if(input$diabetes == "Yes") {
+    } else if(input$d_drinker == "Yes") {
       drinker01 <- 1.0
     }
     
     ggplot(data = diabetes[diabetes$HvyAlcoholConsump == drinker01, ]) +
-      geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$drinkerPlotColor) +
+      geom_histogram(mapping = aes(x = Diabetes_012), binwidth = 0.5, fill = input$drinkerTableColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("count")
   })
