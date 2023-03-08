@@ -365,7 +365,7 @@ ui <- fluidPage(
              
              h3("Age Groups"),
              p("As age increases, there is an upward trend in the number of
-               patients diagnosed with type-diabetes. There is also a downward
+               patients diagnosed with type-2 diabetes. There is also a downward
                trend in non-diabetic patients as the age group increases. Many 
                sources acknowledge a strong positive correlation between age 
                and type-2 diabetes diagnoses. This correlation is commonly
