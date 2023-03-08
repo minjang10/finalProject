@@ -67,7 +67,11 @@ ui <- fluidPage(
                           strong("Behavioral Risk Factor Surveillance
                                   System (BRFSS) survey"),
                           "in 2015."
-                        )
+                        ),
+                        
+                        img("", src = "cdcLogo.jpg",
+                            width = "250",
+                            height = "150")
                       ))
              )),
     ############################################################################
