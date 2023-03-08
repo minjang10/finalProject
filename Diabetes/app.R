@@ -257,11 +257,21 @@ ui <- fluidPage(
                    textOutput("ageplotText")
                  )
                )
-             )
+             )),
+    ############################################################################
+    tabPanel("About",
+             h2("Conclusion"),
+             
+             p("In this interactive application, we analyzed and evaluated three 
+               categories of risk factors with respect to the corresponding 
+               frequency of diabetes in patients who aligned with those 
+               categories. In the scope of underlying health conditions, our
+               analysis encompassed four conditions: high blood pressure, high 
+               cholesterol, stroke, and heart disease or heart attack. Upon 
+               examination of a plot "),  
     )
   )
 )
-
 server <- function(input, output) {
   
   conditionsData <- reactive({
@@ -440,15 +450,15 @@ server <- function(input, output) {
       filter(Diabetes_012 !=0) %>%
       select(Diabetes_012,
              Smoker) %>%
-    group_by(Diabetes_012) %>%
-    summarize(Smoker = sum(smoker))
-  
+      group_by(Diabetes_012) %>%
+      summarize(Smoker = sum(smoker))
+    
   })
-
+  
   output$smoker <- renderUI({
     radioButtons('diabetes', 'Select 1 for yes, and 0 for no: ', 
                  choices = c(0, 1)
-                 )
+    )
   })
   
   output$smokerPlot <- renderPlot({
