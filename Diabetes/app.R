@@ -342,12 +342,12 @@ ui <- fluidPage(
                one can observe that the non-smoker data has a much higher count 
                of non-diabetic patients at slightly under 125,000 patients while 
                the smoker data has a much lower count of non-diabetic patients
-               at only around 90,000 patients. This could possibly indicate a 
-               positive correlation between smoking and diabetic rates and may
-               suggest that smoking increases the risk of diabetes. The CDC
+               at only around 90,000 patients. This is indicative of a positive 
+               correlation between smoking and diabetic rates and possibly 
+               suggests that smoking increases risk of diabetes. The CDC
                reports that regular smokers are 30-40% more likely to get type-2
                diabetes than non-smokers. They attribute this risk to the
-               increase in blood pressure that nicotine causes."),
+               rise in blood pressure that nicotine causes."),
              p("In our assessment of drinking activity and diabetes rates, one
                can observe a similar pattern to the trend present in smoking
                activity. In both visualizations, the most significant difference
@@ -356,12 +356,12 @@ ui <- fluidPage(
                alcohol consumption, the count of non-diabetic patients is around 
                200,000 while the count of non-diabetic patients for heavy 
                alcohol consumers falls nearly 25% to roughly 140,000. Much like 
-               the smoking data, the drinking data seemingly illustrates a
-               positive relationship between alcohol consumption and diabetic 
-               rates in patients. The American Diabetes Association advises 
-               against heavy alcohol consumption as it increases one's risk of
-               getting type-2 diabetes stating that excessive drinking can lower
-               the body's sensitivity to insulin."),
+               the smoking data, the drinking data illustrates a positive 
+               relationship between alcohol consumption and diabetic rates in 
+               patients. The American Diabetes Association advises against heavy
+               alcohol consumption as it increases one's risk of getting type-2 
+               diabetes stating that excessive drinking can lower the body's 
+               sensitivity to insulin."),
              
              h3("Age Groups"),
              p("As age increases, there is an upward trend in the number of
@@ -386,7 +386,8 @@ ui <- fluidPage(
                may use such applications to educate their patients and encourage
                certain lifestyle changes."),
              
-             
+             h3("Data Quality"),
+             p("")
              
              
     )
