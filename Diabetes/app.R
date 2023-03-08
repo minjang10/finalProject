@@ -2,17 +2,21 @@ library(shiny)
 library(tidyverse)
 library(reactable)
 
+# Loading the data 
 diabetes <- read_delim("diabetes.csv")
 
+# Making UI for the shiny app
 ui <- fluidPage(
   titlePanel("Diabetes Analysis"),
   tabsetPanel(
     ############################################################################
+    # Describing the UI elements for the 'About' page of the shiny app.
     tabPanel("About",
              
              fluidRow(
                column(8,
                       wellPanel(
+                        
                         style = "background-color: #C0C0C0;
                                  border-color: #060000;
                                  height: 100vh;
@@ -67,6 +71,8 @@ ui <- fluidPage(
                       ))
              )),
     ############################################################################
+    # Describing the UI elements for the 'Underlying Health Conditions' page of
+    # the shiny app.
     tabPanel("Underlying Health Conditions",
              fluidRow(
                column(6,
@@ -177,6 +183,8 @@ ui <- fluidPage(
                )
              )),
     ############################################################################
+    # Describing the UI elements for the 'Smoking and Drinking' page of
+    # the shiny app.
     tabPanel("Smoking and Drinking",
              fluidRow(
                column(6,
@@ -270,6 +278,7 @@ ui <- fluidPage(
                )
              )),
     ############################################################################
+    # Describing the UI elements for the 'Age Groups' page of the shiny app.
     tabPanel("Age Groups",
              sidebarLayout(
                sidebarPanel(
@@ -304,6 +313,7 @@ ui <- fluidPage(
                )
              )),
     ############################################################################
+    # Describing the UI elements for the 'Conclusion' page of the shiny app.
     tabPanel("Conclusion",
              h2("Conclusion"),
              
@@ -412,8 +422,12 @@ ui <- fluidPage(
   )
 )
 
+# Making the server function for the shiny app
 server <- function(input, output) {
   
+  # Reactive data that only contains the Diabetes_012, HighBP, HighChol,
+  # Stroke, and HeartDiseaseorAttack columns. It also summarizes the 
+  # number of cases for each of those underlying conditions
   conditionsData <- reactive({
     diabetes %>%
       filter(Diabetes_012 != 0) %>%
@@ -429,6 +443,7 @@ server <- function(input, output) {
                 Heart_Disease_or_Attack = sum(HeartDiseaseorAttack))
   })
   
+  # Makes the list of conditions that the user can choose from
   output$conditions <- renderUI({
     checkboxGroupInput("chooseConditions",
                        "",
@@ -437,6 +452,9 @@ server <- function(input, output) {
                        )))
   })
   
+  # Gathers the conditionsData into two columns, Conditions and Count. 
+  # This way it describes the conditions and the number 
+  # of patients corresponding to each in a single place.
   sample <- reactive({
     if(is.null(input$chooseConditions)) {
       s1 <- data.frame(matrix(ncol = 1, nrow = 0))
@@ -449,6 +467,8 @@ server <- function(input, output) {
     }
   })
   
+  # Reactive data that includes the data for the type of diabetes chosen by
+  # the user 
   tableDf <- reactive({
     diabetes %>%
       filter(Diabetes_012 == strtoi(input$type)) %>%
@@ -459,6 +479,7 @@ server <- function(input, output) {
              HeartDiseaseorAttack)
   })
   
+  # Makes the plot for the conditions chosen by the user
   output$conditionsPlot <- renderPlot({
     if(nrow(sample()) == 0) {
       p <- sample() %>%
@@ -493,11 +514,14 @@ server <- function(input, output) {
     }
   })
   
+  # Writes a message on the screen, giving the users the number of conditions
+  # chosen by them
   output$conditionsPlotMessage <- renderText({
     paste("Number of conditions considered :",
           length(input$chooseConditions))
   })
   
+  # Makes a table that summarizes the number of patients for each condition
   output$conditionsTable1 <- renderReactable({
     options(
       reactable.theme = reactableTheme(
@@ -518,6 +542,8 @@ server <- function(input, output) {
     )
   })
   
+  # Makes a table that summarizes the percentage of patients with prediabetes
+  # or diabetes that also have one or more of the underlying conditions.
   output$conditionsTable2 <- renderReactable({
     options(
       reactable.theme = reactableTheme(
@@ -539,7 +565,8 @@ server <- function(input, output) {
     )
   })
   
-  
+  # Writes a message to the screen showing the users the total number of 
+  # patients with prediabetes or diabetes
   output$conditionsTableMessage <- renderText({
     displayPatients <- tableDf() %>%
       summarize(Total_Patients = length(Diabetes_012))
@@ -548,13 +575,18 @@ server <- function(input, output) {
           displayPatients$Total_Patients)
   })
   
+  # Makes a plot that describes the number of patients with no diabetes, 
+  # prediabetes, and diabetes. 
   output$ageplot <- renderPlot({
     ggplot(data = diabetes[diabetes$Age == input$age, ]) +
-      geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)), fill = input$agePlotColor) +
+      geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)),
+                     fill = input$agePlotColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("count")
   })
   
+  # Writes a message on the screen that describes the age group chosen by the 
+  # user
   output$ageplotText <- renderText({
     if (input$age == 1) {
       ageRange <- "18-24"
@@ -587,7 +619,8 @@ server <- function(input, output) {
     
   })
   
-  
+  # Reactive data that summarizes the number of patients with different stages
+  # of diabetes with respect to whether they smoke or not
   smokerData <- reactive({
     diabetes %>%
       filter(Diabetes_012 !=0) %>%
@@ -598,13 +631,15 @@ server <- function(input, output) {
     
   })
   
-  
+  # Makes the yes/no choice button to ask the user if they smoke or not
   output$smoker <- renderUI({
     radioButtons('d_smoker', '', 
-                 choices = c("Yes", "No")
+                 choices = c("No", "Yes")
     )
   })
   
+  # Makes the plot for diabetes patients depending on whether the user smokes 
+  # or not. 
   output$smokerPlot <- renderPlot({
     
     if (input$d_smoker == "No") {
@@ -614,11 +649,14 @@ server <- function(input, output) {
     }
     
     ggplot(data = diabetes[diabetes$Smoker == smoker01, ]) +
-      geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)), fill = input$smokerPlotColor) +
+      geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)),
+                     fill = input$smokerPlotColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("count")
   })
   
+  # Reactive data that summarizes the number of patients with different stages 
+  # of diabetes with respect to whether they drink excessively or not. 
   drinkerData <- reactive({
     diabetes %>%
       filter(Diabetes_012 !=0) %>%
@@ -629,10 +667,11 @@ server <- function(input, output) {
     
   })
   
-  
+  # Makes the yes/no choice button to ask the user if they drink excessively
+  # or not.
   output$drinker <- renderUI({
     radioButtons('d_drinker', '', 
-                 choices = c("Yes", "No")
+                 choices = c("No", "Yes")
     )
   })
   
@@ -645,7 +684,8 @@ server <- function(input, output) {
     }
     
     ggplot(data = diabetes[diabetes$HvyAlcoholConsump == drinker01, ]) +
-      geom_histogram(stat = "count",mapping = aes(x = factor(Diabetes_012)), fill = input$drinkerTableColor) +
+      geom_histogram(stat = "count",mapping = aes(x = factor(Diabetes_012)),
+                     fill = input$drinkerTableColor) +
       xlab("Diabetes Type (0 = No Diabetes)") +
       ylab("count")
   })
