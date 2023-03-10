@@ -220,7 +220,9 @@ ui <- fluidPage(
                                     cigarettes or 5 packs in your lifetime?")
                                  ),
                                  
-                                 uiOutput("smoker")
+                                 radioButtons("d_smoker",
+                                              "0 = No, 1 = Yes",
+                                              choices = c(0,1))
                           )
                         )
                         
@@ -267,7 +269,9 @@ ui <- fluidPage(
                                           per week as an adult female?")
                                  ),
                                  
-                                 uiOutput("drinker")
+                                 radioButtons("d_drinker",
+                                              "0 = No, 1 = Yes",
+                                              choices = c(0,1))
                           )
                         )
                       ),
@@ -290,12 +294,10 @@ ui <- fluidPage(
                  style = "background-color: #C0C0C0;
                    border-color: #060000;
                    height: 100vh",
-                 sliderInput(
+                 radioButtons(
                    "age",
                    "Select Age Group",
-                   min = 1,
-                   max = 13,
-                   value = 6
+                   choices = c(1:13)
                  ),
                  radioButtons(
                    "agePlotColor",
@@ -435,7 +437,6 @@ server <- function(input, output) {
   # number of cases for each of those underlying conditions
   conditionsData <- reactive({
     diabetes %>%
-      filter(Diabetes_012 != 0) %>%
       select(Diabetes_012,
              HighBP,
              HighChol,
@@ -504,16 +505,14 @@ server <- function(input, output) {
       p <- sample() %>%
         ggplot(aes(Conditions, Count)) +
         geom_bar(stat = "identity",
-                 aes(fill = factor(Diabetes_012)),
-                 position = "dodge") +
-        coord_flip() +
+                 aes(fill = factor(Diabetes_012))) +
         theme(
           plot.background = element_rect(fill = input$conditionsPlotColor),
           text = element_text(size = 15, color = "black"),
           axis.text = element_text(size = 13, color = "black")
         ) +
-        ggtitle("Number of prediabetic(1) and diabetic(2) patients for
-                  each condition")
+        ggtitle("Number of non-diabetic(0), prediabetic(1) and diabetic(2)
+                 people for each condition")
       
       p
     }
@@ -586,8 +585,9 @@ server <- function(input, output) {
     ggplot(data = diabetes[diabetes$Age == input$age, ]) +
       geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)),
                      fill = input$agePlotColor) +
-      xlab("Diabetes Type (0 = No Diabetes)") +
-      ylab("count")
+      xlab("Diabetes Type (0 = No Diabetes, 1 = Prediabetes, 2 = Diabetes)") +
+      ylab("count") +
+      ylim(0, 30000)
   })
   
   # Writes a message on the screen that describes the age group chosen by the 
@@ -628,7 +628,6 @@ server <- function(input, output) {
   # of diabetes with respect to whether they smoke or not
   smokerData <- reactive({
     diabetes %>%
-      filter(Diabetes_012 !=0) %>%
       select(Diabetes_012,
              Smoker) %>%
       group_by(Diabetes_012) %>%
@@ -636,28 +635,17 @@ server <- function(input, output) {
     
   })
   
-  # Makes the yes/no choice button to ask the user if they smoke or not
-  output$smoker <- renderUI({
-    radioButtons('d_smoker', '', 
-                 choices = c("No", "Yes")
-    )
-  })
   
   # Makes the plot for diabetes patients depending on whether the user smokes 
   # or not. 
   output$smokerPlot <- renderPlot({
     
-    if (input$d_smoker == "No") {
-      smoker01 <- 0.0
-    } else if(input$d_smoker == "Yes") {
-      smoker01 <- 1.0
-    }
-    
-    ggplot(data = diabetes[diabetes$Smoker == smoker01, ]) +
+    ggplot(data = diabetes[diabetes$Smoker == input$d_smoker, ]) +
       geom_histogram(stat = "count", mapping = aes(x = factor(Diabetes_012)),
                      fill = input$smokerPlotColor) +
-      xlab("Diabetes Type (0 = No Diabetes)") +
-      ylab("count")
+      xlab("Diabetes Type (0 = No Diabetes, 1 = Prediabetes, 2 = Diabetes)") +
+      ylab("count") +
+      ylim(0, 253680)
   })
   
   # Reactive data that summarizes the number of patients with different stages 
@@ -672,27 +660,15 @@ server <- function(input, output) {
     
   })
   
-  # Makes the yes/no choice button to ask the user if they drink excessively
-  # or not.
-  output$drinker <- renderUI({
-    radioButtons('d_drinker', '', 
-                 choices = c("No", "Yes")
-    )
-  })
   
   output$drinkerPlot <- renderPlot({
     
-    if (input$d_drinker == "No") {
-      drinker01 <- 0.0
-    } else if(input$d_drinker == "Yes") {
-      drinker01 <- 1.0
-    }
-    
-    ggplot(data = diabetes[diabetes$HvyAlcoholConsump == drinker01, ]) +
+    ggplot(data = diabetes[diabetes$HvyAlcoholConsump == input$d_drinker, ]) +
       geom_histogram(stat = "count",mapping = aes(x = factor(Diabetes_012)),
                      fill = input$drinkerTableColor) +
-      xlab("Diabetes Type (0 = No Diabetes)") +
-      ylab("count")
+      xlab("Diabetes Type (0 = No Diabetes, 1 = Prediabetes, 2 = Diabetes)") +
+      ylab("count") +
+      ylim(0, 253680)
   })
   
 }
