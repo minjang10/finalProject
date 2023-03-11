@@ -329,50 +329,64 @@ ui <- fluidPage(
                categories of risk factors with respect to the corresponding
                frequency of diabetes in patients who aligned with those 
                categories. In the scope of underlying health conditions, our
-               analysis encompassed four conditions: high blood pressure, high
-               cholesterol, stroke, and heart disease or heart attack. Upon 
-               examination of all four conditions as plotted in correlation to 
-               the freqency of diabetes in patients, one can observe relatively
-               higher frequencies of diabetes in patients with high blood 
-               pressure and in patients with high cholesterol levels. While we
-               cannot explicitly attribute these trends to a causal relationship,
-               we can conclude a relatively strong and positive correlation
-               with diabetes in relation to blood pressure and cholesterol.
-               Stroke showed the least correlation to diabetes while the plot
-               for heart disease/heart attack illustrated a slightly stronger 
-               correlation. This is fairly reasonable, given, high blood pressure
-               and high cholesterol are both major risk factors associated with
+               analysis encompassed four conditions:", 
+               strong("high blood pressure, high cholesterol,
+               stroke, and heart disease or heart attack."),
+               "Upon examination of all four conditions as plotted in 
+               correlation to the freqency of diabetes in patients, 
+               one can observe relatively higher frequencies of diabetes in 
+               patients with high blood pressure and in patients with high 
+               cholesterol levels. While we cannot explicitly attribute these 
+               trends to a causal relationship, we can conclude a relatively
+               strong and positive correlation with diabetes in relation to 
+               blood pressure and cholesterol. Stroke showed the least 
+               correlation to diabetes while the plot for heart disease/heart
+               attack illustrated a slightly stronger correlation. This is
+               fairly reasonable, given, high blood pressure and high 
+               cholesterol are both major risk factors associated with
                heart disease/heart attacks."),
              
              h3("Smoking and Drinking"),
              p("Additionally, we examined the relationship between the frequency
-              of diabetes in patients and certain lifestyle aspects, namely, 
-              smoking and drinking activity. In this dataset, individuals'
+              of diabetes in patients and certain lifestyle aspects, namely,",
+              strong("smoking and drinking activity."),
+              "In this dataset, individuals'
               lifestyle habits are evaluated on a binary scale from 0-1. One is
-              considered a heavy drinker if they surpass 14 drinks per week as 
-              an adult male or 7 drinks per week as an adult female. For smoking
+              considered a", 
+              strong("heavy drinker"),
+              "if they surpass",
+              strong("14 drinks per week as an adult male"),
+              "or",
+              strong("7 drinks per week as an adult female."),
+              "For smoking
               if the individual has smoked at least 100 cigarettes or 5 packs in
               their lifetime they are considered a regular smoker. Users may 
               select 1 if the described conditions align with their lifestyle 
               or 0 if they do not. "),
              p("In the visualization for smoking activity and diabetes rates, 
                one can observe that the non-smoker data has a much higher count 
-               of non-diabetic patients at slightly under 125,000 patients while 
+               of non-diabetic patients at slightly under",
+               strong("125,000 patients"),
+               "while 
                the smoker data has a much lower count of non-diabetic patients
-               at only around 90,000 patients. This is indicative of a positive 
+               at only around",
+               strong("90,000 patients."),
+               "This is indicative of a positive 
                correlation between smoking and diabetic rates and possibly 
                suggests that smoking increases risk of diabetes. The CDC
-               reports that regular smokers are 30-40% more likely to get type-2
-               diabetes than non-smokers. They attribute this risk to the
+               reports that",
+               strong("regular smokers are 30-40% more likely to get type-2
+               diabetes than non-smokers."), "They attribute this risk to the
                rise in blood pressure that nicotine causes."),
              p("In our assessment of drinking activity and diabetes rates, one
                can observe a similar pattern to the trend present in smoking
                activity. In both visualizations, the most significant difference
                in increased smoking and drinking actiivty is that of the
                counts of non-diabetic patients. For individuals with lighter
-               alcohol consumption, the count of non-diabetic patients is around 
-               200,000 while the count of non-diabetic patients for heavy 
-               alcohol consumers falls nearly 25% to roughly 140,000. Much like 
+               alcohol consumption, the count of non-diabetic patients is around", 
+               strong("200,000"), "while the count of non-diabetic patients for heavy 
+               alcohol consumers falls nearly 25% to roughly",
+               strong("140,000."), "Much like 
                the smoking data, the drinking data illustrates a positive 
                relationship between alcohol consumption and diabetic rates in 
                patients. The American Diabetes Association advises against heavy
@@ -381,8 +395,8 @@ ui <- fluidPage(
                sensitivity to insulin."),
              
              h3("Age Groups"),
-             p("As age increases, there is an upward trend in the number of
-               patients diagnosed with type-2 diabetes. There is also a downward
+             p(strong("As age increases, there is an upward trend in the number of
+               patients diagnosed with type-2 diabetes."), "There is also a downward
                trend in non-diabetic patients as the age group increases. Many 
                sources acknowledge a strong positive correlation between age 
                and type-2 diabetes diagnoses. This correlation is commonly
@@ -416,6 +430,14 @@ ui <- fluidPage(
                regarding access to healthcare professionals as well as 
                healthcare coverage."),
              
+             p("The data included in this project was",
+               strong("discrete in nature,"), "due to
+               which it was difficult for us to depict trends using plots.
+               Therefore, we focused on only including the number of patients
+               for each category. This also makes it easier for users to 
+               gauge the proportions of non-diabetic, prediabetic, and 
+               diabetic people."),
+             
              h3("Future Ideas"),
              p("For future research and development, we would be interested in 
                exploring and implementing a calculator feature that would walk
@@ -424,7 +446,7 @@ ui <- fluidPage(
                Providing a calculator feature would allow users to get a
                personalized analysis of their risk. Hopefully, this feature, 
                would provide users with a more meaningful and straightforward
-               experience."),
+               experience.")
     )
   )
 )
